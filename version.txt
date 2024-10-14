@@ -1,0 +1,21 @@
+
+V2.0.0
+    This is a continuation of my earlier work on the plugin "Spring Garden". I did this work on a different
+        GitHub account that I no longer have access to.
+
+
+    Changed the overlay to display in relation to region number instead of distance to a world point.
+
+
+V1.1.0
+    Added an OverlayPanel to show time elapsed, success rate, fruit picked, drinks made,
+        fruit picked per hour, drinks made per hour, and xp/hr.
+    Added SpringGardenSession file to keep track of the all the data from the current session.
+    Began preparing to expand the plugin to the other 3 gardens.
+    Tweaked some tile activation logic.
+    Fixed a stack-trace error from being printed out.
+
+V1.0.0
+    Original Commit consisting of basic functions.
+
+
