@@ -25,11 +25,9 @@ Although this may sound complicated,
 after a couple runs you'll have the hang of it.
 
 ### Future plugin updates
-Adding a number above the tiles to show when they are expected to turn green
+~~Adding a number above the tiles to show when they are expected to turn green~~
 
-Adding the same functionality to the other gardens (Winter, Autumn, and Summer)
-
-Adding a sound effect when it is safe to move to the next tile
+Adding the same functionality to the other gardens (~~Winter~~, ~~Autumn~~, and Summer)
 
 ~~Adding an overlay to show how many runs have been made/failed, how many fruits have been collected, 
     and how much experience you will get from the current amount of drinks in your inventory~~
