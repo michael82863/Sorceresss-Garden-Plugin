@@ -1,10 +1,20 @@
 
+
+
+V2.1.0
+    Added Winter Garden.
+    Added Autumn Garden.
+
+
 V2.0.0
     This is a continuation of my earlier work on the plugin "Spring Garden". I did this work on a different
         GitHub account that I no longer have access to.
 
-
     Changed the overlay to display in relation to region number instead of distance to a world point.
+    Changed the way the plugin keeps track of the Elemental NPCs and their paths.
+    Changed the collision logic for the movement tiles.
+    Added a number on the run tiles to show how many more steps it will be until the tile changes color. -Needs work
+    Added a toggle to turn the session panel HUD on and off.
 
 
 V1.1.0

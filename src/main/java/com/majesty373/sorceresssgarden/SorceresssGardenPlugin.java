@@ -36,9 +36,6 @@ public class SorceresssGardenPlugin extends Plugin {
 	private Notifier notifier;
 
 	@Inject
-	private ElementalCollisionDetector collisionDetector;
-
-	@Inject
 	private SorceresssGardenOverlay overlay;
 
 	@Inject
@@ -57,6 +54,7 @@ public class SorceresssGardenPlugin extends Plugin {
 	private static final String STAMINA_MESSAGE = "[Sorceress's Garden] Low Stamina Warning";
 	private boolean sentStaminaNotification = false;
 	private boolean overlayEnabled = false;
+	public static final boolean DEBUG = true;
 
 
 	@Override
@@ -91,7 +89,7 @@ public class SorceresssGardenPlugin extends Plugin {
 			if (session == null) session = new SorceresssGardenSession();
 			session.increaseFruitGathered();
 		}
-		else if (event.getMessage().startsWith("You squeeze 4 sq'irks into an empty glass")) {
+		else if (event.getMessage().startsWith("You squeeze ")) {
 			if (session == null) session = new SorceresssGardenSession();
 			session.increaseDrinksMade();
 		}
@@ -116,7 +114,7 @@ public class SorceresssGardenPlugin extends Plugin {
 		// check for stamina usage
 		int stamThreshold = config.staminaThreshold();
 		if (stamThreshold != 0) {
-			boolean stamActive = client.getVar(Varbits.RUN_SLOWED_DEPLETION_ACTIVE) != 0;
+			boolean stamActive = client.getVarbitValue(Varbits.RUN_SLOWED_DEPLETION_ACTIVE) != 0;
 			if (client.getEnergy() <= stamThreshold && !stamActive && !sentStaminaNotification) {
 				notifier.notify(STAMINA_MESSAGE, TrayIcon.MessageType.WARNING);
 				sentStaminaNotification = true;
@@ -131,7 +129,7 @@ public class SorceresssGardenPlugin extends Plugin {
 		return configManager.getConfig(SorceresssGardenConfig.class);
 	}
 
-	private boolean inGardenRegion() {
+	public boolean inGardenRegion() {
 		return client.getLocalPlayer() != null && client.getLocalPlayer().getWorldLocation().getRegionID() == GARDEN_REGION;
 	}
 }

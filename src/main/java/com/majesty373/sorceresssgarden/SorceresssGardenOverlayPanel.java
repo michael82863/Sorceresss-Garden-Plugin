@@ -1,7 +1,6 @@
 package com.majesty373.sorceresssgarden;
 
 import net.runelite.api.Client;
-import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.LineComponent;
@@ -11,30 +10,34 @@ import javax.inject.Inject;
 import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
 
 public class SorceresssGardenOverlayPanel extends OverlayPanel {
     static final int TIMEOUT = 120;
-    static final int DRINK_EXP = 1350;
+    static final int WINTER_DRINK_EXP = 350;
+    static final int SPRING_DRINK_EXP = 1350;
+    static final int AUTUMN_DRINK_EXP = 2350;
+    static final int SUMMER_DRINK_EXP = 3000;
 
-    private final Client client;
     private final SorceresssGardenPlugin plugin;
 
     @Inject
-    SorceresssGardenOverlayPanel(Client client, SorceresssGardenPlugin plugin) {
+    private SorceresssGardenConfig config;
+
+    @Inject
+    SorceresssGardenOverlayPanel(SorceresssGardenPlugin plugin) {
         super(plugin);
-        this.client = client;
         this.plugin = plugin;
         setPosition(OverlayPosition.TOP_LEFT);
     }
 
     @Override
     public Dimension render (Graphics2D graphics) {
+        if (!config.showPanel()) return null;
         SorceresssGardenSession session = plugin.getSession();
         if (session == null) {
             return null;
         }
-        if (isDoingMaze() || Duration.between(session.getLastFruitGathered(), Instant.now()).getSeconds() < TIMEOUT) {
+        if (plugin.inGardenRegion() || Duration.between(session.getLastFruitGathered(), Instant.now()).getSeconds() < TIMEOUT) {
             panelComponent.getChildren().add(TitleComponent.builder()
                     .text("Running")
                     .color(Color.GREEN)
@@ -88,10 +91,6 @@ public class SorceresssGardenOverlayPanel extends OverlayPanel {
         return super.render(graphics);
     }
 
-    private boolean isDoingMaze () {
-        return Objects.requireNonNull(client.getLocalPlayer()).getWorldLocation().distanceTo2D(new WorldPoint(2928, 5468, 0)) < 20;
-    }
-
     public String getFormattedTimeFromStart() {
         Duration time = Duration.ofMillis(getTimeFromStart());
         long minutes = time.toMinutes() % 60;
@@ -101,7 +100,18 @@ public class SorceresssGardenOverlayPanel extends OverlayPanel {
     }
 
     public int getExperiencePerHour() {
-        int expGain = plugin.getSession().getDrinksMade() * DRINK_EXP;
+        int expGain = 0;
+        switch (config.garden()) {
+            case WINTER: expGain = plugin.getSession().getDrinksMade() * WINTER_DRINK_EXP;
+                break;
+            case SPRING: expGain = plugin.getSession().getDrinksMade() * SPRING_DRINK_EXP;
+                break;
+            case SUMMER: expGain = plugin.getSession().getDrinksMade() * SUMMER_DRINK_EXP;
+                break;
+            case AUTUMN: expGain = plugin.getSession().getDrinksMade() * AUTUMN_DRINK_EXP;
+                break;
+            default: break;
+        }
         return (int) (3600000d / (long) getTimeFromStart() * (double) (expGain));
     }
 
